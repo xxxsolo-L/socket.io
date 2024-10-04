@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang = "eng">
+<head>
+    <meta charset="utf-8">
+<title>Socket.io</title>
+        <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"
+                integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
+                crossOrigin="anonymous">
+        </script>
+
+
+</head>
+<body>
+    <input id="input" type="text"/> <button id="button">Отправить сообщение</button>
+    <ul id="messageList">
+        <li>First message</li>
+    </ul>
+
+<script>
+    const websocket = io("http://localhost:3000");
+
+    const input = document.getElementById("input");
+    const button = document.getElementById("button");
+    const messageList = document.getElementById("messageList");
+
+    websocket.on('message', (msg) => {
+        const liMessage = document.createElement("li");
+        liMessage.textContent = msg;
+        messageList.appendChild(liMessage);
+    });
+    button.addEventListener('click', () => {
+        const value = input.value;
+        websocket.emit('message', value);
+        input.value = "";
+    })
+
+</script>
+
+</body>
+</html>
